@@ -10,7 +10,6 @@ namespace PublishData
     //Tracking entity is created when EF begins to track, e.g.used in query
     public class PubContext : DbContext
     {
-
         public DbSet<Author> Authors { get; set; }
 
         public DbSet<Book> Books { get; set; }
@@ -24,6 +23,12 @@ namespace PublishData
             //Also canuse .AsNoTracking on a specific query
             //optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //Seeding data, willbe translated in migration
+            modelBuilder.Entity<Author>().HasData(new Author { Id =1, FirstName = "Dave", LastName = "Mac", Books = new List<Book>() });
         }
 
     }
