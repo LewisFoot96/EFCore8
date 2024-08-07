@@ -3,6 +3,11 @@ using PublisherDomain;
 
 namespace PublishData
 {
+    //DbContext represents a session with the database.
+    //This session is started when you do something with the database
+    //DbContext has change tracker, manages collection of entity entry objects
+    //Entity entry objects state info for each entity 
+    //Tracking entity is created when EF begins to track, e.g.used in query
     public class PubContext : DbContext
     {
 
