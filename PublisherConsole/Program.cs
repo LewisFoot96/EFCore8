@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PublishData;
 using PublisherDomain;
-using System.Net.WebSockets;
+
+PubContext _context = new PubContext();
 
 using (PubContext pubContext = new PubContext())
 {
@@ -32,6 +33,38 @@ void AddAuthor()
     Console.WriteLine(context.ChangeTracker.DebugView.ShortView);
     context.SaveChanges();
 
+}
+
+void AddBookToAuthor(string firstName)
+{
+    //Getting the author and then adding new book, using the context defined
+    var author = _context.Authors.FirstOrDefault(a => a.FirstName == firstName);
+
+    if (author != null)
+    {
+        author.Books.Add(new Book
+        {
+            Title = "New Book",
+            PublishDate = DateOnly.MinValue,
+        });
+    }
+
+    _context.SaveChanges();
+}
+
+void AddingANewBookUsingBook()
+{
+    //Assuming i know a correct foreign key for the author
+    var book = new Book
+    {
+        AuthorId = 1,
+        PublishDate = DateOnly.MaxValue,
+        Title = "Book added from book",
+        BasePrice = 1
+    };
+
+    _context.Books.Add(book);
+    _context.SaveChanges();
 }
 
 void UpdateAuthor()
@@ -87,4 +120,22 @@ void ExecuteAuthorDelete()
     var context = new PubContext();
     //Deleting without tracking. Executes straight away and runs sql
     var count = context.Authors.Where(x => x.FirstName == "Dave").ExecuteDelete();
+}
+
+void EagerLoadBooksWithAuthors()
+{
+    var authors = _context.Authors.Include(x => x.Books
+    .Where(x => x.PublishDate > DateOnly.MinValue).OrderBy(b => b.Title)).ToList();
+
+    authors.ForEach(a =>
+        {
+            Console.WriteLine(a.FirstName);
+        });
+}
+
+void QueryProjections()
+{
+    var someType = _context.Authors.Select(a => new { Name = a.FirstName, AuthorId = a.AuthorId, Books = a.Books.Count }).ToList();
+
+
 }
