@@ -7,6 +7,7 @@
         public DateOnly PublishDate { get; set; }
         public decimal BasePrice { get; set; }
         public Author Author { get; set; }
+        //Can make this nullable, so it is not required for the relationship
         public int AuthorId { get; set; }
     }
 }
