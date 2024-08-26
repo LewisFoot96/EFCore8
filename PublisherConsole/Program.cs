@@ -190,4 +190,6 @@ void ConnectArtistsAndBookCovers()
         _context.SaveChanges();
     }
     //to delete would need both book cover and artist in the memeory, as using skippnig mapping. 
+    //To move an artist from a book cover would have to delete original and then add new
+    //You can do skip navigations with payloads, that can have a date and extra fields as payloads, ceate our own join table with the property
 }
