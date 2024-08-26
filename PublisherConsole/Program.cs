@@ -4,6 +4,14 @@ using PublisherDomain;
 
 PubContext _context = new PubContext();
 
+
+//There are 4 methods to load data in EF core, get related data from the database: 
+// - Eager loading -> include related objects in query
+// - Query Projections -> define the shape of query results
+// - Explicit loading -> explicitly request related fata fro obejcts in memory
+// - Lazy loading -> on the fly retriveval of data related to objects in memory
+
+
 using (PubContext pubContext = new PubContext())
 {
     //EF core will check to ensure database is creted and create if it doesn't
@@ -136,6 +144,50 @@ void EagerLoadBooksWithAuthors()
 void QueryProjections()
 {
     var someType = _context.Authors.Select(a => new { Name = a.FirstName, AuthorId = a.AuthorId, Books = a.Books.Count }).ToList();
+}
 
+//Already in memory methods start
+void ExplicitLoading()
+{
+    //Would need an actual author, will update. Author already in memory, load a collection. Can use reference to get the author from a book in memory.
+    var author = _context.Authors.FirstOrDefault();
+    if (author != null)
+    {
+        //Enrtry used to get sepcific EF core entry, fine grain control over change tracker
+        _context.Entry(author).Collection(a => a.Books).Load();
+    }
+}
 
+void LazyLoading()
+{
+    //Requires lazy loading to be setup in your app. Quite a few steps to do, not advised. 
+    var author = _context.Authors.FirstOrDefault();
+    if (author != null)
+    {
+        foreach (var book in author.Books)
+        {
+            Console.WriteLine(book.Title);
+        }
+    }
+}
+//Already in memory end
+
+void ConnectArtistsAndBookCovers()
+{
+    var artist = _context.Artists.Find(1);
+    var bookCover = _context.BookCovers.Find(1);
+    if (bookCover != null && artist != null)
+    {
+        var newBookCover = new BookCover
+        {
+            BookCoverId = 2,
+            DesignIdeas = "Animal",
+            DigitalOnly = true
+        };
+        artist.Covers.Add(newBookCover);
+        artist.Covers.Add(bookCover);
+
+        _context.SaveChanges();
+    }
+    //to delete would need both book cover and artist in the memeory, as using skippnig mapping. 
 }

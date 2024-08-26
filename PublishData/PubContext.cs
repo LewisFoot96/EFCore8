@@ -15,6 +15,10 @@ namespace PublishData
 
         public DbSet<Book> Books { get; set; }
 
+        public DbSet<Artist> Artists { get; set; }
+
+        public DbSet<BookCover> BookCovers { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = PubDatabase")
@@ -28,7 +32,7 @@ namespace PublishData
 
 
             //Tracking ofDB objects in local mem can be displayed for performance
-            //Also canuse .AsNoTracking on a specific query
+            //Also can use .AsNoTracking on a specific query
             //optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
         }
@@ -39,6 +43,40 @@ namespace PublishData
             modelBuilder.Entity<Author>().HasData(new Author { AuthorId = 1, FirstName = "Dave", LastName = "Mac", Books = new List<Book>() });
 
             modelBuilder.Entity<Book>().HasData(new Book { BookId = 1, AuthorId = 1, Title = "Lewis Book", PublishDate = new DateOnly(1996, 4, 13) });
+
+            var someArtists = new List<Artist>
+            { 
+                new Artist
+                {
+                    ArtistId = 1,
+                    FirstName = "Pablo",
+                    LastName = "Foot"
+                },
+                 new Artist
+                {
+                    ArtistId = 2,
+                    FirstName = "Lewis",
+                    LastName = "Foot"
+                },
+            };
+
+            modelBuilder.Entity<Artist>().HasData(someArtists);
+
+            var someBookCovers = new List<BookCover>
+            {
+                new() {
+                    BookCoverId = 1,
+                    DesignIdeas = "Pablo",
+                    DigitalOnly = true
+                },
+                new() {
+                    BookCoverId = 2,
+                    DesignIdeas = "Lewis",
+                    DigitalOnly = false
+                },
+            };
+
+            modelBuilder.Entity<Artist>().HasData(someArtists);
         }
 
     }
