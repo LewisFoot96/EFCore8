@@ -44,8 +44,10 @@ namespace PublishData
 
             modelBuilder.Entity<Book>().HasData(new Book { BookId = 1, AuthorId = 1, Title = "Lewis Book", PublishDate = new DateOnly(1996, 4, 13) });
 
+            modelBuilder.Entity<Book>().HasData(new Book { BookId = 2, AuthorId = 1, Title = "Lewis New Book", PublishDate = new DateOnly(1996, 4, 13) });
+
             var someArtists = new List<Artist>
-            { 
+            {
                 new Artist
                 {
                     ArtistId = 1,
@@ -67,16 +69,17 @@ namespace PublishData
                 new() {
                     BookCoverId = 1,
                     DesignIdeas = "Pablo",
-                    DigitalOnly = true
+                    DigitalOnly = true,
+                    BookId = 1
                 },
                 new() {
                     BookCoverId = 2,
                     DesignIdeas = "Lewis",
-                    DigitalOnly = false
+                    DigitalOnly = false, BookId = 2
                 },
             };
 
-            modelBuilder.Entity<Artist>().HasData(someArtists);
+            modelBuilder.Entity<BookCover>().HasData(someBookCovers);
         }
 
     }
