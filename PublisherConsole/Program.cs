@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PublishData;
 using PublisherDomain;
+using System.Reflection.Metadata.Ecma335;
 
 PubContext _context = new PubContext();
 
@@ -195,3 +196,22 @@ void ConnectArtistsAndBookCovers()
 }
 
 //One to one relationships
+
+void GetAllBooksWithTheirCovers()
+{
+    var booksAndCovers = _context.Books.Include(b => b.BookCover).ToList();
+
+
+    booksAndCovers.ForEach(book => Console.WriteLine(book.BookCover.DesignIdeas));
+}
+
+void GetThenInclude()
+{
+    //Getting related data, then include
+    var authorGraph = _context.Authors
+        .Include(a => a.Books)
+        .ThenInclude(b => b.BookCover)
+        .ThenInclude(bc => bc.Artists)
+        .FirstOrDefault(x => x.AuthorId == 1);
+
+}

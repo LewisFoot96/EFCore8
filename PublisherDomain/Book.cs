@@ -9,5 +9,7 @@
         public Author Author { get; set; }
         //Can make this nullable, so it is not required for the relationship
         public int AuthorId { get; set; }
+        //One to one, principlas are always required
+        public BookCover BookCover { get; set; }   
     }
 }
