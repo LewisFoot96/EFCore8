@@ -215,3 +215,45 @@ void GetThenInclude()
         .FirstOrDefault(x => x.AuthorId == 1);
 
 }
+
+void SimpleRawSql()
+{
+    //Never use SQL with parameters embedded directly into the string
+    //Concatenation strings are not safe, directly into the SQL, never use
+    //Formatted strings are safe if you just add the string into the parameters
+    //Interprolated strings, use FromSql method for it to be safe
+    var authors = _context.Authors.FromSqlRaw("select * from authors").TagWith("Raw SQL").Include(a => a.Books).ToList(); //Exact sql that is sent to the database. Can extend to use linq queries ontop
+
+    //Stored procedure
+    int start = 2010;
+    int end = 2020;
+    var authorsStoredProcedure = _context.Authors.FromSql($"AuthorsPuiblishedinYearRange {start}, {end}").ToList();
+}
+
+void QuerySql()
+{
+    //Can return objects too. Can create an internal class for example and put the returns into it. 
+    var ids = _context.Database.SqlQuery<int>($"SELECT AuthordId FROM Authors").ToList();
+}
+
+//Keyless entities - always read only. Ca use database views -> to be added at a later data. Need to use HasNoKey, default EF core maps entities to tables and not views, need to use the ToView mapping
+//Keyless entities will never be tracked
+//We can then execute a query on a view on the database.
+// TODO
+
+
+//Execute query commands, get back number of rows that have been affected
+void DeleteCover(int coverId)
+{
+    //Can delete entities without bringing them into memory
+    var rowCount = _context.Database.ExecuteSqlRaw("Delete Cover {0}", coverId); //Calling stored procedure, these do not interact with the change tracker
+    Console.WriteLine(rowCount);
+}
+
+//Mapping stored procedures, maybe for legacy and an explicit need to do so
+void InsertNewAuthor()
+{
+    var author = new Author { FirstName = "Aimee", LastName = "Hardy" };
+    _context.Authors.Add(author);
+    _context.SaveChanges();
+}

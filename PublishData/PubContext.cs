@@ -48,14 +48,12 @@ namespace PublishData
 
             var someArtists = new List<Artist>
             {
-                new Artist
-                {
+                new() {
                     ArtistId = 1,
                     FirstName = "Pablo",
                     LastName = "Foot"
                 },
-                 new Artist
-                {
+                 new() {
                     ArtistId = 2,
                     FirstName = "Lewis",
                     LastName = "Foot"
@@ -80,6 +78,10 @@ namespace PublishData
             };
 
             modelBuilder.Entity<BookCover>().HasData(someBookCovers);
+
+            //Creating an author using a stored procedure, ovrriding, EF core will use own generated sql for anything you haven't mapped. 
+            modelBuilder.Entity<Author>()
+                .InsertUsingStoredProcedure("AuthorInsert", spbuilder => spbuilder.HasParameter(async => async.FirstName).HasParameter(a => a.LastName).HasResultColumn(a => a.AuthorId));
         }
 
     }
