@@ -14,7 +14,7 @@ namespace PubApi.Mapping
         {
             return new Author
             {
-                AuthorId = authorDto.authorId,
+                AuthorId = authorDto.AuthorId,
                 FirstName= authorDto.FirstName,
                 LastName= authorDto.LastName
             };
