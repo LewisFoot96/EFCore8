@@ -19,23 +19,29 @@ namespace PublishData
 
         public DbSet<BookCover> BookCovers { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public PubContext(DbContextOptions<PubContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = PubDatabase")
-                .LogTo(Console.WriteLine //can about to different things 
-                , new[]
-                {
-                    DbLoggerCategory.Database.Command.Name,
-
-                }, LogLevel.Information) //Logging to console, there are catogories of logs. Can filter on these as above. 
-                .EnableSensitiveDataLogging(); //Can see incoming data, not recommened for produciton. 
-
-
-            //Tracking ofDB objects in local mem can be displayed for performance
-            //Also can use .AsNoTracking on a specific query
-            //optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-
+            
         }
+
+        //This is required for the Console app to work,ideally configuring in app
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = PubDatabase")
+        //        .LogTo(Console.WriteLine //can about to different things 
+        //        , new[]
+        //        {
+        //            DbLoggerCategory.Database.Command.Name,
+
+        //        }, LogLevel.Information) //Logging to console, there are catogories of logs. Can filter on these as above. 
+        //        .EnableSensitiveDataLogging(); //Can see incoming data, not recommened for produciton. 
+
+
+        //    //Tracking ofDB objects in local mem can be displayed for performance
+        //    //Also can use .AsNoTracking on a specific query
+        //    //optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
