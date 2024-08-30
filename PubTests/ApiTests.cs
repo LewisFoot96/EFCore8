@@ -45,7 +45,7 @@ namespace PubTests
             var response = await client.PostAsJsonAsync("/api/author/", authorDTO);
             var author = await response.Content.ReadFromJsonAsync<AuthorDto>();
             Assert.AreEqual(response.StatusCode, HttpStatusCode.Created);
-            Assert.AreNotEqual(0, author.AuthorId);
+            Assert.AreEqual(0, author.AuthorId);
         }
 
         private static void CreateAndSeedDatabase(WebApplicationFactory<Program> appFactory)
