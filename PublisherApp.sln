@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PublisherDomain", "Publishe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PublisherConsole", "PublisherConsole\PublisherConsole.csproj", "{808FAB6D-C534-4A7C-8054-20E32E2D381C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublishData", "PublishData\PublishData.csproj", "{DF47B7DD-F8F8-4BA1-AD93-794569363D65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PublishData", "PublishData\PublishData.csproj", "{DF47B7DD-F8F8-4BA1-AD93-794569363D65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PubApi", "PubApi\PubApi.csproj", "{91C2C535-9080-4BA7-9E4C-65191DCA38CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{DF47B7DD-F8F8-4BA1-AD93-794569363D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF47B7DD-F8F8-4BA1-AD93-794569363D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF47B7DD-F8F8-4BA1-AD93-794569363D65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91C2C535-9080-4BA7-9E4C-65191DCA38CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91C2C535-9080-4BA7-9E4C-65191DCA38CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91C2C535-9080-4BA7-9E4C-65191DCA38CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91C2C535-9080-4BA7-9E4C-65191DCA38CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
