@@ -19,29 +19,37 @@ namespace PublishData
 
         public DbSet<BookCover> BookCovers { get; set; }
 
-        public PubContext(DbContextOptions<PubContext> options) : base(options)
+        public PubContext()
         {
             
         }
 
+        public PubContext(DbContextOptions<PubContext> options) : base(options)
+        {
+
+        }
+
         //This is required for the Console app to work,ideally configuring in app
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = PubDatabase")
-        //        .LogTo(Console.WriteLine //can about to different things 
-        //        , new[]
-        //        {
-        //            DbLoggerCategory.Database.Command.Name,
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = PubDatabase")
+                    .LogTo(Console.WriteLine //can about to different things 
+                    , new[]
+                    {
+                    DbLoggerCategory.Database.Command.Name,
 
-        //        }, LogLevel.Information) //Logging to console, there are catogories of logs. Can filter on these as above. 
-        //        .EnableSensitiveDataLogging(); //Can see incoming data, not recommened for produciton. 
+                    }, LogLevel.Information) //Logging to console, there are catogories of logs. Can filter on these as above. 
+                    .EnableSensitiveDataLogging(); //Can see incoming data, not recommened for produciton. 
 
 
-        //    //Tracking ofDB objects in local mem can be displayed for performance
-        //    //Also can use .AsNoTracking on a specific query
-        //    //optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                //Tracking ofDB objects in local mem can be displayed for performance
+                //Also can use .AsNoTracking on a specific query
+                //optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            }
 
-        //}
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -86,8 +94,8 @@ namespace PublishData
             modelBuilder.Entity<BookCover>().HasData(someBookCovers);
 
             //Creating an author using a stored procedure, ovrriding, EF core will use own generated sql for anything you haven't mapped. 
-            modelBuilder.Entity<Author>()
-                .InsertUsingStoredProcedure("AuthorInsert", spbuilder => spbuilder.HasParameter(async => async.FirstName).HasParameter(a => a.LastName).HasResultColumn(a => a.AuthorId));
+            //modelBuilder.Entity<Author>()
+            //    .InsertUsingStoredProcedure("AuthorInsert", spbuilder => spbuilder.HasParameter(async => async.FirstName).HasParameter(a => a.LastName).HasResultColumn(a => a.AuthorId));
         }
 
     }
