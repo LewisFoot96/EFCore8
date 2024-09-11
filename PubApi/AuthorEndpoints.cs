@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.OpenApi;
 using PublishData;
 using PublisherDomain;
-using PubApi.DTOs;
-using PubApi.Mapping;
+using PubApplication.Mapping;
+using PubApplication.DTOs;
+using MediatR;
+using PublishApplication.Commands;
 namespace PubApi;
 
 public static class AuthorEndpoints
@@ -20,8 +22,9 @@ public static class AuthorEndpoints
         .WithName("GetAllAuthors")
         .WithOpenApi();
 
-        group.MapGet("/{authorid}", async Task<Results<Ok<AuthorDto>, NotFound>> (int authorid, PubContext db) =>
+        group.MapGet("/{authorid}", async Task<Results<Ok<AuthorDto>, NotFound>> (int authorid, PubContext db, IMediator mediator) =>
         {
+            //var resultnew = mediator.Send(new CreateAuthorCommand() { AuthorId = authorid });
             var result = await db.Authors.AsNoTracking()
                 .FirstOrDefaultAsync(a => a.AuthorId == authorid);
 

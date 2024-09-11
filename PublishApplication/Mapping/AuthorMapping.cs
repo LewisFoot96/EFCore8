@@ -1,7 +1,7 @@
 ﻿using PubApplication.DTOs;
 using PublisherDomain;
 
-namespace PubApi.Mapping
+namespace PubApplication.Mapping
 {
     public static class AuthorMapping
     {

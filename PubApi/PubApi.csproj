@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>
@@ -21,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PublishApplication\PublishApplication.csproj" />
     <ProjectReference Include="..\PublishData\PublishData.csproj" />
-    <ProjectReference Include="..\PublisherDomain\PublisherDomain.csproj" />
   </ItemGroup>
 
 </Project>
